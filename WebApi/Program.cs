@@ -8,6 +8,9 @@ namespace WebApi
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+
+            // валидация данных
+            // статус подтвержден
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
