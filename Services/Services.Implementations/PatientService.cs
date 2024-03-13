@@ -30,7 +30,7 @@ namespace Services.Implementations
         public async Task<ICollection<PatientDto>> GetPaged(int page, int pageSize)
         {
             var entities = await _pacientRepository.GetPagedAsync(page, pageSize);
-            return entities.ToPatientDto();
+            return entities.ToPatientsDto();
             //return _mapper.Map<ICollection<Patient>, ICollection<PatientDto>>(entities);
         }
 

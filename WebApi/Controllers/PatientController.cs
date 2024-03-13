@@ -3,9 +3,7 @@ using Microsoft.Extensions.Logging;
 using Services.Abstractions;
 using Services.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -25,33 +23,74 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Ok(_mapper.Map<PatientModel>(await _service.GetById(id)));
+            try
+            {
+                var patient = await _service.GetById(id);
+                return Ok(patient);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка Get");
+                return BadRequest();
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(PatientModel courseModel)
+        public async Task<IActionResult> Add(PatientDto courseModel)
         {
-            return Ok(await _service.Create(_mapper.Map<PatientDto>(courseModel)));
+            try
+            {
+                return Ok(await _service.Create(courseModel));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка Add");
+                return BadRequest();
+            }
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(Guid id, PatientModel courseModel)
-        {
-            await _service.Update(id, _mapper.Map<PatientDto>(courseModel));
-            return Ok();
+        public async Task<IActionResult> Edit(Guid id, PatientDto courseModel)
+        {          
+            try
+            {
+                await _service.Update(id, courseModel);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка Edit");
+                return BadRequest();
+            }
         }
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            await _service.Delete(id);
-            return Ok();
+            try
+            {
+                await _service.Delete(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка Delete");
+                return BadRequest();
+            }
         }
         
         [HttpGet("list/{page}/{itemsPerPage}")]
         public async Task<IActionResult> GetList(int page, int itemsPerPage)
         {
-            return Ok(_mapper.Map<List<PatientModel>>(await _service.GetPaged(page, itemsPerPage)));
+            try
+            {
+                return Ok(await _service.GetPaged(page, itemsPerPage));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка GetList");
+                return BadRequest();
+            }
         }
     }
 }
