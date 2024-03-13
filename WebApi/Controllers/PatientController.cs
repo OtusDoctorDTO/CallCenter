@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Services.Abstractions;
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Services.Abstractions;
 using Services.Contracts;
-using WebApi.Models;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -15,14 +14,12 @@ namespace WebApi.Controllers
     public class PatientController: ControllerBase
     {
         private IPatientService _service;
-        private IMapper _mapper;
         private readonly ILogger<PatientController> _logger;
 
-        public PatientController(IPatientService service, ILogger<PatientController> logger, IMapper mapper)
+        public PatientController(IPatientService service, ILogger<PatientController> logger)
         {
             _service = service;
             _logger = logger;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]

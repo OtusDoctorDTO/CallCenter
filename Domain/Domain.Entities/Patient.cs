@@ -6,7 +6,7 @@ namespace Domain.Entities
     /// <summary>
     /// Пациент, который обратился в клинику, его данные завел сотрудник
     /// </summary>
-    public class Patient
+    public class Patient : IEntity<Guid>
     {
         public Guid Id { get; set; }
         /// <summary>

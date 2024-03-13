@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Services.Abstractions;
 using Services.Contracts;
 using Services.Repositories.Abstractions;
@@ -14,14 +13,11 @@ namespace Services.Implementations
     /// </summary>
     public class PatientService : IPatientService
     {
-        private readonly IMapper _mapper;
         private readonly IPatientRepository _pacientRepository;
 
         public PatientService(
-            IMapper mapper,
             IPatientRepository courseRepository)
         {
-            _mapper = mapper;
             _pacientRepository = courseRepository;
         }
 
@@ -34,7 +30,8 @@ namespace Services.Implementations
         public async Task<ICollection<PatientDto>> GetPaged(int page, int pageSize)
         {
             var entities = await _pacientRepository.GetPagedAsync(page, pageSize);
-            return _mapper.Map<ICollection<Patient>, ICollection<PatientDto>>(entities);
+            return entities.ToPatientDto();
+            //return _mapper.Map<ICollection<Patient>, ICollection<PatientDto>>(entities);
         }
 
         /// <summary>
@@ -55,7 +52,7 @@ namespace Services.Implementations
         /// <returns>идентификатор</returns>
         public async Task<Guid> Create(PatientDto patientDto)
         {
-            var entity = _mapper.Map<PatientDto, Patient>(patientDto);
+            var entity = patientDto.ToPatient() /*_mapper.Map<PatientDto, Patient>(patientDto);*/;
             var res = await _pacientRepository.AddAsync(entity);
             await _pacientRepository.SaveChangesAsync();
             return res.Id;
@@ -68,7 +65,7 @@ namespace Services.Implementations
         /// <param name="patientDto">ДТО пациента</param>
         public async Task Update(Guid id, PatientDto patientDto)
         {
-            var entity = _mapper.Map<PatientDto, Patient>(patientDto);
+            var entity = patientDto.ToPatient() /*_mapper.Map<PatientDto, Patient>(patientDto);*/;
             entity.Id = id;
             _pacientRepository.Update(entity);
             await _pacientRepository.SaveChangesAsync();

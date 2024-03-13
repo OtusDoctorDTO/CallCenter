@@ -12,7 +12,7 @@ namespace Infrastructure.Repositories.Implementations
     /// <summary>
     /// Репозиторий работы с курсами
     /// </summary>
-    public class PatientRepository: Repository<Patient, Guid>, IPatientRepository 
+    public class PatientRepository: Repository<Domain.Entities.Patient, Guid>, IPatientRepository 
     {
         public PatientRepository(DatabaseContext context): base(context)
         {
