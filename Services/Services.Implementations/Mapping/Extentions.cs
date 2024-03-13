@@ -19,5 +19,14 @@ namespace Services.Implementations.Mapping
 
             };
         }
+
+        public static Patient ToPatient(this PatientDto patient)
+        {
+            return new Patient()
+            {
+
+            };
+        }
+        
     }
 }

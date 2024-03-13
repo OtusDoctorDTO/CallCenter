@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Services.Abstractions;
 using Services.Contracts;
+using Services.Implementations.Mapping;
 using Services.Repositories.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,6 @@ namespace Services.Implementations
         {
             var entities = await _pacientRepository.GetPagedAsync(page, pageSize);
             return entities.ToPatientsDto();
-            //return _mapper.Map<ICollection<Patient>, ICollection<PatientDto>>(entities);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace Services.Implementations
         /// <returns>ДТО пациента</returns>
         public async Task<PatientDto> GetById(Guid id)
         {
-            var course = await _pacientRepository.GetAsync(id);
-            return _mapper.Map<PatientDto>(course);
+            var patient = await _pacientRepository.GetAsync(id);
+            return patient.ToPatientDto();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Services.Implementations
         /// <returns>идентификатор</returns>
         public async Task<Guid> Create(PatientDto patientDto)
         {
-            var entity = patientDto.ToPatient() /*_mapper.Map<PatientDto, Patient>(patientDto);*/;
+            var entity = patientDto.ToPatient();
             var res = await _pacientRepository.AddAsync(entity);
             await _pacientRepository.SaveChangesAsync();
             return res.Id;
@@ -65,7 +65,7 @@ namespace Services.Implementations
         /// <param name="patientDto">ДТО пациента</param>
         public async Task Update(Guid id, PatientDto patientDto)
         {
-            var entity = patientDto.ToPatient() /*_mapper.Map<PatientDto, Patient>(patientDto);*/;
+            var entity = patientDto.ToPatient();
             entity.Id = id;
             _pacientRepository.Update(entity);
             await _pacientRepository.SaveChangesAsync();
