@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace Services.Contracts
 {
@@ -7,5 +9,19 @@ namespace Services.Contracts
     /// </summary>
     public class PatientDto
     {
+        public Guid Id { get; set; }
+        /// <summary>
+        /// Id пользователя
+        /// </summary>
+        public Guid UserId { get; set; }
+        /// <summary>
+        /// Данные документа
+        /// </summary>
+        public DocumentDTO Document { get; set; }
+        public List<ContactDTO> Contacts { get; set; }
+        /// <summary>
+        /// Статус пациента
+        /// </summary>
+        public RelevanceStatusEnum Status { get; set; }
     }
 }

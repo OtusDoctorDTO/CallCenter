@@ -16,8 +16,8 @@ namespace Domain.Entities
         /// <summary>
         /// Данные документа
         /// </summary>
-        public Document Document { get; set; }
-        public List<Contact> Contacts { get; set; }
+        public virtual Document Document { get; set; }
+        public virtual List<Contact> Contacts { get; set; }
         /// <summary>
         /// Статус пациента
         /// </summary>

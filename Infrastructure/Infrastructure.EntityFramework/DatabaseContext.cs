@@ -10,7 +10,6 @@ namespace Infrastructure.EntityFramework
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
         
         /// <summary>

@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
+using System;
 
-namespace Domain.Entities
+namespace Services.Contracts
 {
-    /// <summary>
-    /// Документ удостоверяющий личность
-    /// </summary>
-    public class Document
+    public class DocumentDTO
     {
-        public Guid Id { get; set; }
         /// <summary>
         /// Тип документа
         /// </summary>
-        public int DocumentType { get; set; }
+        public DocumentTypeEnum DocumentType { get; set; }
         /// <summary>
         /// Серия
         /// </summary>
@@ -36,7 +29,5 @@ namespace Domain.Entities
         /// Код подразделения
         /// </summary>
         public string DepartmentCode { get; set; }
-
-        public virtual Patient Patient { get; set; }
     }
 }
