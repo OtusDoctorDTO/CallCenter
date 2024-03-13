@@ -14,13 +14,19 @@ namespace Domain.Entities
         /// </summary>
         public Guid UserId { get; set; }
         /// <summary>
-        /// Данные документа
-        /// </summary>
-        public virtual Document Document { get; set; }
-        public virtual List<Contact> Contacts { get; set; }
-        /// <summary>
         /// Статус пациента
         /// </summary>
         public int Status { get; set; }
+        public Guid DocumentId { get; set; }
+
+        /// <summary>
+        /// Данные документа
+        /// </summary>
+        public virtual Document Document { get; set; }
+        /// <summary>
+        /// Контакты
+        /// </summary>
+        public virtual List<Contact> Contacts { get; set; }
+
     }
 }

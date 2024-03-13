@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
     /// <summary>
     /// Документ удостоверяющий личность
     /// </summary>
-    public class Document
+    public class Document : IEntity<Guid>
     {
         public Guid Id { get; set; }
+
+        public Guid PatientId { get; set; }
         /// <summary>
         /// Тип документа
         /// </summary>
