@@ -5,6 +5,7 @@ using Services.Abstractions;
 using AutoMapper;
 using Domain.Entities;
 using Services.Contracts;
+using System;
 
 namespace Services.Implementations
 {
@@ -41,7 +42,7 @@ namespace Services.Implementations
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <returns>ДТО урока</returns>
-        public async Task<LessonDto> GetById(int id)
+        public async Task<LessonDto> GetById(Guid id)
         {
             var lesson = await _lessonRepository.GetAsync(id);
             return _mapper.Map<LessonDto>(lesson);
@@ -52,7 +53,7 @@ namespace Services.Implementations
         /// </summary>
         /// <param name="lessonDto">ДТО урока</param>
         /// <returns>идентификатор</returns>
-        public async Task<int> Create(LessonDto lessonDto)
+        public async Task<Guid> Create(LessonDto lessonDto)
         {
             var entity = _mapper.Map<LessonDto, Lesson>(lessonDto);
             entity.CourseId = lessonDto.CourseId;
@@ -66,7 +67,7 @@ namespace Services.Implementations
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <param name="lessonDto">ДТО урока</param>
-        public async Task Update(int id, LessonDto lessonDto)
+        public async Task Update(Guid id, LessonDto lessonDto)
         {
             var entity = _mapper.Map<LessonDto, Lesson>(lessonDto);
             entity.Id = id;
@@ -78,7 +79,7 @@ namespace Services.Implementations
         /// Удалить
         /// </summary>
         /// <param name="id">идентификатор</param>
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
             var lesson = await _lessonRepository.GetAsync(id);
             lesson.Deleted = true; 

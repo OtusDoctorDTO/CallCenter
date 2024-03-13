@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Services.Contracts;
@@ -22,25 +23,25 @@ namespace Services.Abstractions
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <returns>ДТО курса</returns>
-        Task<CourseDto> GetById(int id);
+        Task<CourseDto> GetById(Guid id);
 
         /// <summary>
         /// Создать
         /// </summary>
         /// <param name="courseDto">ДТО курса</para
-        Task<int> Create(CourseDto courseDto);
+        Task<Guid> Create(CourseDto courseDto);
 
         /// <summary>
         /// Изменить
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <param name="courseDto">ДТО курса</param>
-        Task Update(int id, CourseDto courseDto);
+        Task Update(Guid id, CourseDto courseDto);
 
         /// <summary>
         /// Удалить
         /// </summary>
         /// <param name="id">идентификатор</param>
-        Task Delete(int id);
+        Task Delete(Guid id);
     }
 }

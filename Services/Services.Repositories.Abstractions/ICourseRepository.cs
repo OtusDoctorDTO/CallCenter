@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Entities;
 
@@ -7,7 +8,7 @@ namespace Services.Repositories.Abstractions
     /// <summary>
     /// Интерфейс репозитория работы с уроками
     /// </summary>
-    public interface ICourseRepository: IRepository<Course, int>
+    public interface ICourseRepository: IRepository<Course, Guid>
     {
         /// <summary>
         /// Получить постраничный список

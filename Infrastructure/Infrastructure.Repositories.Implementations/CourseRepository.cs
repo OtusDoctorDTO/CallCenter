@@ -5,13 +5,14 @@ using Services.Repositories.Abstractions;
 using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Infrastructure.Repositories.Implementations
 {
     /// <summary>
     /// Репозиторий работы с курсами
     /// </summary>
-    public class CourseRepository: Repository<Course, int>, ICourseRepository 
+    public class CourseRepository: Repository<Course, Guid>, ICourseRepository 
     {
         public CourseRepository(DatabaseContext context): base(context)
         {

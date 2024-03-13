@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Contracts;
 using WebApi.Models;
+using System;
 
 namespace WebApi.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             return Ok(_mapper.Map<LessonModel>(await _service.GetById(id)));
         }
@@ -37,14 +38,14 @@ namespace WebApi.Controllers
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(int id, LessonModel lessonDto)
+        public async Task<IActionResult> Edit(Guid id, LessonModel lessonDto)
         {
             await _service.Update(id, _mapper.Map<LessonDto>(lessonDto));
             return Ok();
         }
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _service.Delete(id);
             return Ok();

@@ -1,9 +1,11 @@
-﻿namespace Domain.Entities
+﻿using System;
+
+namespace Domain.Entities
 {
     /// <summary>
     /// Модель урока
     /// </summary>
-    public class Lesson: IEntity<int>
+    public class Lesson: IEntity<Guid>
     {
         /// <summary>
         /// Идентификатор
