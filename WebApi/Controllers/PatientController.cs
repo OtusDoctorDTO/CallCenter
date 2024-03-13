@@ -12,13 +12,13 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CourseController: ControllerBase
+    public class PatientController: ControllerBase
     {
-        private ICourseService _service;
+        private IPatientService _service;
         private IMapper _mapper;
-        private readonly ILogger<CourseController> _logger;
+        private readonly ILogger<PatientController> _logger;
 
-        public CourseController(ICourseService service, ILogger<CourseController> logger, IMapper mapper)
+        public PatientController(IPatientService service, ILogger<PatientController> logger, IMapper mapper)
         {
             _service = service;
             _logger = logger;
@@ -28,19 +28,19 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return Ok(_mapper.Map<CourseModel>(await _service.GetById(id)));
+            return Ok(_mapper.Map<PatientModel>(await _service.GetById(id)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CourseModel courseModel)
+        public async Task<IActionResult> Add(PatientModel courseModel)
         {
-            return Ok(await _service.Create(_mapper.Map<CourseDto>(courseModel)));
+            return Ok(await _service.Create(_mapper.Map<PatientDto>(courseModel)));
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(Guid id, CourseModel courseModel)
+        public async Task<IActionResult> Edit(Guid id, PatientModel courseModel)
         {
-            await _service.Update(id, _mapper.Map<CourseDto>(courseModel));
+            await _service.Update(id, _mapper.Map<PatientDto>(courseModel));
             return Ok();
         }
         
@@ -54,7 +54,7 @@ namespace WebApi.Controllers
         [HttpGet("list/{page}/{itemsPerPage}")]
         public async Task<IActionResult> GetList(int page, int itemsPerPage)
         {
-            return Ok(_mapper.Map<List<CourseModel>>(await _service.GetPaged(page, itemsPerPage)));
+            return Ok(_mapper.Map<List<PatientModel>>(await _service.GetPaged(page, itemsPerPage)));
         }
     }
 }

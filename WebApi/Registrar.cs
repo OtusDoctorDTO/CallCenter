@@ -27,7 +27,7 @@ namespace WebApi
         private static IServiceCollection InstallServices(this IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddTransient<ICourseService, CourseService>()
+                .AddTransient<IPatientService, PatientService>()
                 .AddTransient<ILessonService, LessonService>();
             return serviceCollection;
         }
@@ -35,7 +35,7 @@ namespace WebApi
         private static IServiceCollection InstallRepositories(this IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddTransient<ICourseRepository, CourseRepository>()
+                .AddTransient<IPatientRepository, PatientRepository>()
                 .AddTransient<ILessonRepository, LessonRepository>();
             return serviceCollection;
         }

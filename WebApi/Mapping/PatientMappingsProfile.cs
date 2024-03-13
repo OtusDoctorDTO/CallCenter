@@ -7,12 +7,12 @@ namespace WebApi.Mapping
     /// <summary>
     /// Профиль автомаппера для сущности курса.
     /// </summary>
-    public class CourseMappingsProfile : Profile
+    public class PatientMappingsProfile : Profile
     {
-        public CourseMappingsProfile()
+        public PatientMappingsProfile()
         {
-            CreateMap<CourseDto, CourseModel>();
-            CreateMap<CourseModel, CourseDto>();
+            CreateMap<PatientDto, PatientModel>();
+            CreateMap<PatientModel, PatientDto>();
         }
     }
 }

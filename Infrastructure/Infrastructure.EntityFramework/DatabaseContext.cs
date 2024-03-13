@@ -10,25 +10,20 @@ namespace Infrastructure.EntityFramework
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
         
         /// <summary>
-        /// Курсы
+        /// Контакты
         /// </summary>
-        public DbSet<Course> Courses { get; set; }
-        
+        public DbSet<Contact> Contacts { get; set; }
         /// <summary>
-        /// Уроки
+        /// Документы
         /// </summary>
-        public DbSet<Lesson> Lessons { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);            
-            modelBuilder.Entity<Course>()
-                .HasMany(u => u.Lessons)
-                .WithOne(c=> c.Course)
-                .IsRequired();
-        }
+        public DbSet<Document> Documents { get; set; }
+        /// <summary>
+        /// пациенты
+        /// </summary>
+        public DbSet<Patient> Patients { get; set; }
     }
 }

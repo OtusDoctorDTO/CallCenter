@@ -12,9 +12,9 @@ namespace Infrastructure.Repositories.Implementations
     /// <summary>
     /// Репозиторий работы с курсами
     /// </summary>
-    public class CourseRepository: Repository<Course, Guid>, ICourseRepository 
+    public class PatientRepository: Repository<Patient, Guid>, IPatientRepository 
     {
-        public CourseRepository(DatabaseContext context): base(context)
+        public PatientRepository(DatabaseContext context): base(context)
         {
         }
       
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories.Implementations
         /// <param name="page">номер страницы</param>
         /// <param name="itemsPerPage">объем страницы</param>
         /// <returns> Список курсов</returns>
-        public async Task<List<Course>> GetPagedAsync(int page, int itemsPerPage)
+        public async Task<List<Patient>> GetPagedAsync(int page, int itemsPerPage)
         {
             var query = GetAll();
             return await query

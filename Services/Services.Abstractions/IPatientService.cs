@@ -8,7 +8,7 @@ namespace Services.Abstractions
     /// <summary>
     /// Cервис работы с курсами (интерфейс)
     /// </summary>
-    public interface ICourseService
+    public interface IPatientService
     {
         /// <summary>
         /// Получить список
@@ -16,27 +16,27 @@ namespace Services.Abstractions
         /// <param name="page">номер страницы</param>
         /// <param name="pageSize">объем страницы</param>
         /// <returns></returns>
-        Task<ICollection<CourseDto>> GetPaged(int page, int pageSize);
+        Task<ICollection<PatientDto>> GetPaged(int page, int pageSize);
 
         /// <summary>
         /// Получить
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <returns>ДТО курса</returns>
-        Task<CourseDto> GetById(Guid id);
+        Task<PatientDto> GetById(Guid id);
 
         /// <summary>
         /// Создать
         /// </summary>
         /// <param name="courseDto">ДТО курса</para
-        Task<Guid> Create(CourseDto courseDto);
+        Task<Guid> Create(PatientDto courseDto);
 
         /// <summary>
         /// Изменить
         /// </summary>
         /// <param name="id">идентификатор</param>
         /// <param name="courseDto">ДТО курса</param>
-        Task Update(Guid id, CourseDto courseDto);
+        Task Update(Guid id, PatientDto courseDto);
 
         /// <summary>
         /// Удалить

@@ -21,6 +21,6 @@ namespace Domain.Entities
         /// <summary>
         /// Статус пациента
         /// </summary>
-        public RelevanceStatusEnum StatusEnum { get; set; }
+        public int Status { get; set; }
     }
 }

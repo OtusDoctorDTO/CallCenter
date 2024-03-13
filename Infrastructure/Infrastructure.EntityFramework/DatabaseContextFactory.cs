@@ -18,16 +18,14 @@ namespace Infrastructure.EntityFramework
             var builder = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            
             var configuration = builder.Build();
-            var connectionString = configuration["ConnectionString"];
-            if (connectionString == null)
-            {
-                throw new Exception("Connection string is null");
-            }
+            string connection = configuration!.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrEmpty(connection))
+                throw new Exception("Не удалось прочитать строку подключения");
+
+
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            dbContextOptionsBuilder.UseSqlServer(connectionString);
-            //dbContextOptionsBuilder.UseNpgsql(connectionString, opt => opt.MigrationsAssembly("Infrastructure.EntityFramework"));
+            dbContextOptionsBuilder.UseSqlServer(connection);
             return new DatabaseContext(dbContextOptionsBuilder.Options);
         }
     }
