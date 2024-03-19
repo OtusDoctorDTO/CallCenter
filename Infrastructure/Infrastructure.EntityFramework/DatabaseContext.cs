@@ -10,6 +10,7 @@ namespace Infrastructure.EntityFramework
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
         
         /// <summary>
@@ -19,10 +20,19 @@ namespace Infrastructure.EntityFramework
         /// <summary>
         /// Документы
         /// </summary>
-        public DbSet<Document> Documents { get; set; }
+        public DbSet<Domain.Entities.Document> Documents { get; set; }
         /// <summary>
         /// пациенты
         /// </summary>
         public DbSet<Patient> Patients { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Patient>()
+                .HasOne(e => e.Document)
+                .WithOne(e => e.Patient)
+                .HasForeignKey<Patient>(e => e.DocumentId)
+                .IsRequired();
+        }
     }
 }
