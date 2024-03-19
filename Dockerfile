@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
-ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /WebApi
 COPY . ./
 RUN dotnet restore
