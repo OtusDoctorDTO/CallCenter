@@ -7,11 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Services.Abstractions;
 using Services.Implementations;
 using Services.Repositories.Abstractions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Transactions;
 using WebApi.Configs;
 using WebApi.Consumers;
@@ -49,7 +52,11 @@ namespace WebApi
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            });
             builder.Services.AddMassTransit(x =>
             {
                 x.AddConsumer<CallCenterConsumer>();
@@ -82,8 +89,12 @@ namespace WebApi
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "/swagger/{documentName}/swagger.json";
+                });
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
             app.UseHttpsRedirection();
 
