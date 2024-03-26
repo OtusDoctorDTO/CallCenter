@@ -72,7 +72,11 @@ namespace Infrastructure.Repositories.Implementations
 
         public async Task<Patient> GetByIdAsync(Guid id)
         {
-            return await context.Patients.FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Patients
+                .Include(x=> x.Contacts)
+                .Include(x=> x.Document)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
 
