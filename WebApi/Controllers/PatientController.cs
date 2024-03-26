@@ -20,6 +20,11 @@ namespace WebApi.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Получить все данные пациента
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -35,12 +40,17 @@ namespace WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Добавить нового пациента
+        /// </summary>
+        /// <param name="paciemtDTO"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(PatientDto courseModel)
+        public async Task<IActionResult> Add(PatientDto paciemtDTO)
         {
             try
             {
-                return Ok(await _service.Create(courseModel));
+                return Ok(await _service.Create(paciemtDTO));
             }
             catch (Exception e)
             {
@@ -49,12 +59,18 @@ namespace WebApi.Controllers
             }
         }
         
+        /// <summary>
+        /// Изменить данные пациента
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pacientDTO"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(Guid id, PatientDto courseModel)
+        public async Task<IActionResult> Edit(Guid id, PatientDto pacientDTO)
         {          
             try
             {
-                await _service.Update(id, courseModel);
+                await _service.Update(id, pacientDTO);
                 return Ok();
             }
             catch (Exception e)
@@ -64,6 +80,11 @@ namespace WebApi.Controllers
             }
         }
         
+        /// <summary>
+        /// Удалить пицента
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -79,6 +100,12 @@ namespace WebApi.Controllers
             }
         }
         
+        /// <summary>
+        /// Получить постраничный вывод списка пациентов
+        /// </summary>
+        /// <param name="page">номер страницы</param>
+        /// <param name="itemsPerPage">кол-во позиций</param>
+        /// <returns></returns>
         [HttpGet("list/{page}/{itemsPerPage}")]
         public async Task<IActionResult> GetList(int page, int itemsPerPage)
         {

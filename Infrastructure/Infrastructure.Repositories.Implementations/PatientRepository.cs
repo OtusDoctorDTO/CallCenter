@@ -91,6 +91,8 @@ namespace Infrastructure.Repositories.Implementations
                 var patientBD = await GetByIdAsync(patient.Id);
                 patientBD.Status = patient.Status;
                 patientBD.DocumentId = patient.DocumentId;
+                patientBD.Document = patient.Document;
+                patientBD.Contacts = patient.Contacts;
                 await context.SaveChangesAsync();
                 return true;
             }

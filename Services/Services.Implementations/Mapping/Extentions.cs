@@ -17,8 +17,8 @@ namespace Services.Implementations.Mapping
             return new PatientDto()
             {
                 UserId = patient.UserId,
-                Document = patient.Document.ToDocumentDTO(),
-                Contacts = patient.Contacts.ToContactsDTO(),
+                Document = patient.Document?.ToDocumentDTO() ?? null,
+                Contacts = patient.Contacts?.ToContactsDTO() ?? null,
                 Status = (RelevanceStatusEnum)patient.Status
             };
         }
@@ -30,6 +30,7 @@ namespace Services.Implementations.Mapping
                 UserId = patient.UserId,
                 Document = patient.Document.ToDocument(),
                 Contacts = patient.Contacts.ToContacts(),
+                Status = (int)patient.Status
             };
         }
         public static Document ToDocument(this DocumentDTO document)

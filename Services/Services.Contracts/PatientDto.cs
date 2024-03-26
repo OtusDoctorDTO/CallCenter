@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Services.Contracts
@@ -9,7 +8,6 @@ namespace Services.Contracts
     /// </summary>
     public class PatientDto
     {
-        public Guid Id { get; set; }
         /// <summary>
         /// Id пользователя
         /// </summary>
@@ -22,6 +20,6 @@ namespace Services.Contracts
         /// <summary>
         /// Статус пациента
         /// </summary>
-        public RelevanceStatusEnum Status { get; set; }
+        public RelevanceStatusEnum Status { get; set; } = RelevanceStatusEnum.New;
     }
 }
