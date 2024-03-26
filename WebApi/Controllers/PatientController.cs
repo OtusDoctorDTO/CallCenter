@@ -69,7 +69,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                await _service.Delete(id);
+                await _service.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception e)

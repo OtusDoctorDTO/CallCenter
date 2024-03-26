@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Services.Abstractions;
+﻿using Services.Abstractions;
 using Services.Contracts;
 using Services.Implementations.Mapping;
 using Services.Repositories.Abstractions;
@@ -16,8 +15,7 @@ namespace Services.Implementations
     {
         private readonly IPatientRepository _pacientRepository;
 
-        public PatientService(
-            IPatientRepository courseRepository)
+        public PatientService(IPatientRepository courseRepository)
         {
             _pacientRepository = courseRepository;
         }
@@ -30,8 +28,8 @@ namespace Services.Implementations
         /// <returns></returns>
         public async Task<ICollection<PatientDto>> GetPaged(int page, int pageSize)
         {
-            var entities = await _pacientRepository.GetPagedAsync(page, pageSize);
-            return entities.ToPatientsDto();
+            var result = await _pacientRepository.GetPagedAsync(page, pageSize);
+            return result.ToPatientsDto();
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace Services.Implementations
         /// <returns>ДТО пациента</returns>
         public async Task<PatientDto> GetById(Guid id)
         {
-            var patient = await _pacientRepository.GetAsync(id);
+            var patient = await _pacientRepository.GetByIdAsync(id);
             return patient.ToPatientDto();
         }
 
@@ -52,10 +50,8 @@ namespace Services.Implementations
         /// <returns>идентификатор</returns>
         public async Task<Guid> Create(PatientDto patientDto)
         {
-            var entity = patientDto.ToPatient();
-            var res = await _pacientRepository.AddAsync(entity);
-            await _pacientRepository.SaveChangesAsync();
-            return res.Id;
+            var patient = patientDto.ToPatient();
+            return await _pacientRepository.AddAsync(patient);
         }
 
         /// <summary>
@@ -65,21 +61,18 @@ namespace Services.Implementations
         /// <param name="patientDto">ДТО пациента</param>
         public async Task Update(Guid id, PatientDto patientDto)
         {
-            var entity = patientDto.ToPatient();
-            entity.Id = id;
-            _pacientRepository.Update(entity);
-            await _pacientRepository.SaveChangesAsync();
+            var patient = patientDto.ToPatient();
+            patient.Id = id;
+            await _pacientRepository.UpdateAsync(patient);
         }
 
         /// <summary>
         /// Удалить
         /// </summary>
         /// <param name="id">идентификатор</param>
-        public async Task Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            var pacient = await _pacientRepository.GetAsync(id);
-            pacient.Status = (int)RelevanceStatusEnum.Deleted; 
-            await _pacientRepository.SaveChangesAsync();
+            await _pacientRepository.DeleteAsync(id);
         }
     }
 }

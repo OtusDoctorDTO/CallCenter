@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Services.Abstractions;
 using Services.Implementations;
@@ -44,9 +43,9 @@ namespace WebApi
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
 
-            builder.Services.AddTransient<IPatientService, PatientService>();
-            builder.Services.AddTransient<IPatientRepository, PatientRepository>();
             builder.Services.AddTransient<IMessageLogic, MessageLogic>();
+            builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+            builder.Services.AddTransient<IPatientService, PatientService>();
 
             // Add services to the container.
             builder.Services.AddControllers();

@@ -42,6 +42,6 @@ namespace Services.Abstractions
         /// Удалить
         /// </summary>
         /// <param name="id">идентификатор</param>
-        Task Delete(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }
