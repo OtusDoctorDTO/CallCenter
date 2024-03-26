@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Services.Contracts
+namespace Domain.Entities
 {
     public enum RelevanceStatusEnum
     {

@@ -1,4 +1,5 @@
-﻿using Services.Abstractions;
+﻿using Domain.Entities;
+using Services.Abstractions;
 using Services.Contracts;
 using Services.Implementations.Mapping;
 using Services.Repositories.Abstractions;
@@ -72,7 +73,9 @@ namespace Services.Implementations
         /// <param name="id">идентификатор</param>
         public async Task DeleteAsync(Guid id)
         {
-            await _pacientRepository.DeleteAsync(id);
+            var patient = await _pacientRepository.GetByIdAsync(id);
+            patient.Status = (int)RelevanceStatusEnum.Deleted;
+            await _pacientRepository.UpdateAsync(patient);
         }
     }
 }

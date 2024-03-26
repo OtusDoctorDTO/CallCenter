@@ -20,7 +20,6 @@ namespace Services.Repositories.Abstractions
 
         Task<Domain.Entities.Patient> GetByIdAsync(Guid id);
         Task<Guid> AddAsync(Patient patient);
-        Task DeleteAsync(Guid id);
         Task<List<Patient>> GetAllAsync();
         Task<bool> ContainsAsync(Guid id);
         Task<bool> UpdateAsync(Patient patient);

@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Services.Repositories.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,8 @@ namespace Infrastructure.Repositories.Implementations
         /// <returns></returns>
         public async Task<List<Patient>> GetAllAsync()
         {
-            return await context.Patients.ToListAsync();
+            var status = (int)RelevanceStatusEnum.Deleted;
+            return await context.Patients.Where(x => x.Status != status).ToListAsync();
         }
 
         /// <summary>
@@ -39,10 +39,11 @@ namespace Infrastructure.Repositories.Implementations
         /// <returns> Список курсов</returns>
         public async Task<List<Patient>> GetPagedAsync(int page, int itemsPerPage)
         {
-            return await context.Patients
+            var patients = await GetAllAsync();
+            return patients
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
-                .ToListAsync();
+                .ToList();
         }
 
         /// <summary>
@@ -57,24 +58,12 @@ namespace Infrastructure.Repositories.Implementations
             return patient.Id;
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            if (await ContainsAsync(id))
-            {
-                var patient = await GetByIdAsync(id);
-                context.Remove(patient);
-                await context.SaveChangesAsync();
-                return;
-            }
-            throw new NotImplementedException($"Не удалось удалить. Пациента с id - {id} не существует");
-        }
-
 
         public async Task<Patient> GetByIdAsync(Guid id)
         {
             return await context.Patients
-                .Include(x=> x.Contacts)
-                .Include(x=> x.Document)
+                .Include(x => x.Contacts)
+                .Include(x => x.Document)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -82,11 +71,11 @@ namespace Infrastructure.Repositories.Implementations
 
         public async Task<bool> ContainsAsync(Guid id)
         {
-            return await context.Patients.AnyAsync(x=> x.Id == id);
+            return await context.Patients.AnyAsync(x => x.Id == id);
         }
         public async Task<bool> UpdateAsync(Patient patient)
         {
-            if(await ContainsAsync(patient.Id))
+            if (await ContainsAsync(patient.Id))
             {
                 var patientBD = await GetByIdAsync(patient.Id);
                 patientBD.Status = patient.Status;
