@@ -64,6 +64,8 @@ namespace Services.Implementations
         {
             var patient = patientDto.ToPatient();
             patient.Id = id;
+            patient.Contacts.ForEach(c=> c.PatientId = id);
+            patient.Document.PatientId = id;
             await _pacientRepository.UpdateAsync(patient);
         }
 

@@ -43,14 +43,14 @@ namespace WebApi.Controllers
         /// <summary>
         /// Добавить нового пациента
         /// </summary>
-        /// <param name="paciemtDTO"></param>
+        /// <param name="pacientDTO"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(PatientDto paciemtDTO)
+        public async Task<IActionResult> Add(PatientDto pacientDTO)
         {
             try
             {
-                return Ok(await _service.Create(paciemtDTO));
+                return Ok(await _service.Create(pacientDTO));
             }
             catch (Exception e)
             {

@@ -78,10 +78,11 @@ namespace Infrastructure.Repositories.Implementations
             if (await ContainsAsync(patient.Id))
             {
                 var patientBD = await GetByIdAsync(patient.Id);
+
                 patientBD.Status = patient.Status;
-                patientBD.DocumentId = patient.DocumentId;
                 patientBD.Document = patient.Document;
-                patientBD.Contacts = patient.Contacts;
+                await context.Contacts.AddRangeAsync(patient.Contacts);
+                await context.Documents.AddAsync(patient.Document);
                 await context.SaveChangesAsync();
                 return true;
             }
