@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Abstractions;
 using Services.Contracts;
 using System;
 using System.Threading.Tasks;
+using WebApi.Models;
 
 namespace WebApi.Controllers
 {
@@ -11,13 +13,17 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     public class PatientController: ControllerBase
     {
-        private IPatientService _service;
+        private readonly IPatientService _service;
         private readonly ILogger<PatientController> _logger;
+        private readonly IBus _bus;
+        IRequestClient<SavePatientDTORequest> _client;
 
-        public PatientController(IPatientService service, ILogger<PatientController> logger)
+        public PatientController(IBus bus, IPatientService service, ILogger<PatientController> logger, IRequestClient<SavePatientDTORequest> client)
         {
             _service = service;
             _logger = logger;
+            _bus = bus;
+            _client = client;
         }
 
         /// <summary>
@@ -116,6 +122,32 @@ namespace WebApi.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Произошла ошибка GetList");
+                return BadRequest();
+            }
+        }
+
+
+        /// <summary>
+        /// Добавить нового пациента
+        /// </summary>
+        /// <param name="pacientDTO"></param>
+        /// <returns></returns>
+        [HttpPost("AddTestConsumer")]
+        public async Task<IActionResult> TestAdd(PatientDto pacientDTO)
+        {
+            try
+            {
+                var responce = await _client.GetResponse<SavePatientDTOResponse>(new SavePatientDTORequest()
+                {
+                    Patient = pacientDTO,
+                    Guid = Guid.NewGuid()
+                });
+                _logger.LogInformation("Получен ответ {responce}", responce.Message);
+                return Ok(responce.Message.Id);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Произошла ошибка Add");
                 return BadRequest();
             }
         }

@@ -1,21 +1,40 @@
 ﻿using MassTransit;
+using Microsoft.Extensions.Logging;
+using Services.Abstractions;
 using System.Threading.Tasks;
+using WebApi.Models;
 
 namespace WebApi.Consumers
 {
-    public class CallCenterConsumer : IConsumer<CallCenterConsumer>
+    public class CallCenterConsumer : IConsumer<SavePatientDTORequest>
     {
-        private readonly IMessageLogic messageLogic;
+        private readonly ILogger<CallCenterConsumer> logger;
+        private readonly IPatientService service;
 
-        public CallCenterConsumer(IMessageLogic messageLogic)
+        public CallCenterConsumer(ILogger<CallCenterConsumer> logger, IPatientService service)
         {
-            this.messageLogic = messageLogic;
+            this.logger = logger;
+            this.service = service;
         }
 
-        public async Task Consume(ConsumeContext<CallCenterConsumer> context)
+        public async Task Consume(ConsumeContext<SavePatientDTORequest> context)
         {
-
-            await messageLogic.SomeMethod("");
+            logger.LogInformation("Получен запрос SavePatientDTORequest {message}", context.Message);
+            var result = new SavePatientDTOResponse()
+            {
+                Guid = context.Message.Guid,
+                Success = true,
+                ConnectionId = context.Message.ConnectionId
+            };
+            try
+            {
+                result.Guid = await service.Create(context.Message.Patient);
+            }
+            catch (System.Exception e)
+            {
+                logger.LogError(e, "При сохранении пациента произошла ошибка");
+            }
+            await context.RespondAsync(result);
         }
     }
 }

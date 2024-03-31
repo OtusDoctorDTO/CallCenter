@@ -43,7 +43,6 @@ namespace WebApi
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
 
-            builder.Services.AddTransient<IMessageLogic, MessageLogic>();
             builder.Services.AddTransient<IPatientRepository, PatientRepository>();
             builder.Services.AddTransient<IPatientService, PatientService>();
 
@@ -71,7 +70,7 @@ namespace WebApi
 
                     cfg.UseTransaction(_ =>
                     {
-                        _.Timeout = TimeSpan.FromSeconds(20);
+                        _.Timeout = TimeSpan.FromSeconds(60);
                         _.IsolationLevel = IsolationLevel.ReadCommitted;
                     });
 
