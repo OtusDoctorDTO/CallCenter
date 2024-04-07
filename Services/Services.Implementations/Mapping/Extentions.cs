@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Services.Contracts;
+using HelpersDTO.CallCenter.DTO.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +19,7 @@ namespace Services.Implementations.Mapping
                 UserId = patient.UserId,
                 Document = patient.Document?.ToDocumentDTO() ?? null,
                 Contacts = patient.Contacts?.ToContactsDTO() ?? null,
-                Status = (RelevanceStatusEnum)patient.Status
+                Status = (HelpersDTO.CallCenter.DTO.Models.RelevanceStatusEnum)patient.Status
             };
         }
 

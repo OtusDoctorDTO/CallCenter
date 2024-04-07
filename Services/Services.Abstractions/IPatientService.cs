@@ -1,7 +1,7 @@
+using HelpersDTO.CallCenter.DTO.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Services.Contracts;
 
 namespace Services.Abstractions
 {

@@ -1,8 +1,8 @@
-﻿using MassTransit;
+﻿using HelpersDTO.CallCenter.DTO;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using Services.Abstractions;
 using System.Threading.Tasks;
-using WebApi.Models;
 
 namespace WebApi.Consumers
 {

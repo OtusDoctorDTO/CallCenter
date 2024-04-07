@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
+using HelpersDTO.CallCenter.DTO.Models;
 using Services.Abstractions;
-using Services.Contracts;
+
 using Services.Implementations.Mapping;
 using Services.Repositories.Abstractions;
 using System;
@@ -76,7 +77,7 @@ namespace Services.Implementations
         public async Task DeleteAsync(Guid id)
         {
             var patient = await _pacientRepository.GetByIdAsync(id);
-            patient.Status = (int)RelevanceStatusEnum.Deleted;
+            patient.Status = (int)HelpersDTO.CallCenter.DTO.Models.RelevanceStatusEnum.Deleted;
             await _pacientRepository.UpdateAsync(patient);
         }
     }

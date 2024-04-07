@@ -1,11 +1,12 @@
-﻿using MassTransit;
+﻿using HelpersDTO.CallCenter.DTO;
+using HelpersDTO.CallCenter.DTO.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Services.Abstractions;
-using Services.Contracts;
+
 using System;
 using System.Threading.Tasks;
-using WebApi.Models;
 
 namespace WebApi.Controllers
 {
