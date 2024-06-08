@@ -1,25 +1,21 @@
 ﻿using HelpersDTO.CallCenter.DTO;
+using HelpersDTO.Patient;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Services.Abstractions;
+using Services.Repositories.Abstractions;
 using System.Threading.Tasks;
+using Infrastructure.Repositories.Implementations.Mapping;
 
 namespace WebApi.Consumers
 {
-    public class CallCenterConsumer : IConsumer<SavePatientDTORequest>
+    public class CallCenterConsumer(ILogger<CallCenterConsumer> logger, IDocumentRepository documentRepository) : IConsumer<CreateNewPassportRequest>
     {
-        private readonly ILogger<CallCenterConsumer> logger;
-        private readonly IPatientService service;
+        private readonly ILogger<CallCenterConsumer> logger = logger;
+        private readonly IDocumentRepository _documentRepository = documentRepository;
 
-        public CallCenterConsumer(ILogger<CallCenterConsumer> logger, IPatientService service)
+        public async Task Consume(ConsumeContext<CreateNewPassportRequest> context)
         {
-            this.logger = logger;
-            this.service = service;
-        }
-
-        public async Task Consume(ConsumeContext<SavePatientDTORequest> context)
-        {
-            logger.LogInformation("Получен запрос SavePatientDTORequest {message}", context.Message);
+            logger.LogInformation("Получен запрос CreateNewPassportRequest {message}", context.Message);
             var result = new SavePatientDTOResponse()
             {
                 Guid = context.Message.Guid,
@@ -28,11 +24,13 @@ namespace WebApi.Consumers
             };
             try
             {
-                result.Guid = await service.Create(context.Message.Patient);
+                var document = context.Message.Passport.ToDocument(context.Message.UserId);
+                if(document != null)
+                    result.Guid = await _documentRepository.CreatePassport(document);
             }
             catch (System.Exception e)
             {
-                logger.LogError(e, "При сохранении пациента произошла ошибка");
+                logger.LogError(e, "При сохранении CreateNewPassportRequest произошла ошибка");
             }
             await context.RespondAsync(result);
         }

@@ -5,15 +5,15 @@ namespace Domain.Entities
     /// <summary>
     /// Документ удостоверяющий личность
     /// </summary>
-    public class Document : IEntity<Guid>
+    public class Document
     {
         public Guid Id { get; set; }
 
-        public Guid PatientId { get; set; }
+        public Guid? UserId { get; set; }
         /// <summary>
         /// Тип документа
         /// </summary>
-        public int DocumentType { get; set; }
+        public int? DocumentType { get; set; }
         /// <summary>
         /// Серия
         /// </summary>
@@ -25,7 +25,7 @@ namespace Domain.Entities
         /// <summary>
         /// Дата выдачи
         /// </summary>
-        public DateTime IssueDate { get; set; }
+        public DateTime? IssueDate { get; set; }
         /// <summary>
         /// Кем выдано
         /// </summary>
@@ -34,7 +34,5 @@ namespace Domain.Entities
         /// Код подразделения
         /// </summary>
         public string DepartmentCode { get; set; }
-
-        public virtual Patient Patient { get; set; }
     }
 }

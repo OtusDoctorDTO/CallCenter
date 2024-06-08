@@ -8,8 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Services.Abstractions;
-using Services.Implementations;
 using Services.Repositories.Abstractions;
 using System;
 using System.IO;
@@ -42,9 +40,7 @@ namespace WebApi
                 throw new ConfigurationException("Не удалось прочитать строку подключения");
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connection));
-
-            builder.Services.AddTransient<IPatientRepository, PatientRepository>();
-            builder.Services.AddTransient<IPatientService, PatientService>();
+            builder.Services.AddTransient<IDocumentRepository, DocumentRepository>();
 
             // Add services to the container.
             builder.Services.AddControllers();
