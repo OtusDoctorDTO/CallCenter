@@ -26,7 +26,7 @@ namespace WebApi.Consumers
             {
                 var document = context.Message.Passport.ToDocument(context.Message.UserId);
                 if(document != null)
-                    result.Guid = await _documentRepository.CreatePassport(document);
+                    await _documentRepository.CreatePassport(document);
             }
             catch (System.Exception e)
             {
