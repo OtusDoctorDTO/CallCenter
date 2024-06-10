@@ -51,31 +51,11 @@ namespace WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
-            builder.Services.AddMassTransit(x =>
+
+            builder.Services.AddMassTransit(o =>
             {
-                x.AddConsumer<CallCenterConsumer>();
-
-
-                x.UsingRabbitMq((context, cfg) =>
-                {
-                    cfg.Host(receptionConfig.BusConfig.Host, receptionConfig.BusConfig.Port, receptionConfig.BusConfig.Path, h =>
-                    {
-                        h.Username(receptionConfig.BusConfig.Username);
-                        h.Password(receptionConfig.BusConfig.Password);
-                    });
-
-                    cfg.UseTransaction(_ =>
-                    {
-                        _.Timeout = TimeSpan.FromSeconds(60);
-                        _.IsolationLevel = IsolationLevel.ReadCommitted;
-                    });
-
-                    cfg.ReceiveEndpoint(new TemporaryEndpointDefinition(), e =>
-                    {
-                        e.ConfigureConsumer<CallCenterConsumer>(context);
-                    });
-                    cfg.ConfigureEndpoints(context);
-                });
+                o.AddConsumer<CallCenterConsumer>();
+                o.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
             });
 
             var app = builder.Build();

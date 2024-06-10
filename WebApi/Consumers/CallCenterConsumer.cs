@@ -1,10 +1,9 @@
-﻿using HelpersDTO.CallCenter.DTO;
-using HelpersDTO.Patient;
+﻿using HelpersDTO.Patient;
+using Infrastructure.Repositories.Implementations.Mapping;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Services.Repositories.Abstractions;
 using System.Threading.Tasks;
-using Infrastructure.Repositories.Implementations.Mapping;
 
 namespace WebApi.Consumers
 {
@@ -16,7 +15,7 @@ namespace WebApi.Consumers
         public async Task Consume(ConsumeContext<CreateNewPassportRequest> context)
         {
             logger.LogInformation("Получен запрос CreateNewPassportRequest {message}", context.Message);
-            var result = new SavePatientDTOResponse()
+            var response = new CreateNewPassportDtoResponse()
             {
                 Guid = context.Message.Guid,
                 Success = true,
@@ -25,14 +24,14 @@ namespace WebApi.Consumers
             try
             {
                 var document = context.Message.Passport.ToDocument(context.Message.UserId);
-                if(document != null)
+                if (document != null)
                     await _documentRepository.CreatePassport(document);
             }
             catch (System.Exception e)
             {
                 logger.LogError(e, "При сохранении CreateNewPassportRequest произошла ошибка");
             }
-            await context.RespondAsync(result);
+            await context.RespondAsync<CreateNewPassportDtoResponse>(response);
         }
     }
 }
