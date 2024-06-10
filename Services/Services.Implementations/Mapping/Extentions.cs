@@ -3,7 +3,7 @@ using HelpersDTO.CallCenter.DTO.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Services.Implementations.Mapping
+namespace Infrastructure.Repositories.Implementations.Mapping
 {
     public static class Extentions
     {

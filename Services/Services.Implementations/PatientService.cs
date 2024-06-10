@@ -1,11 +1,9 @@
-﻿using Domain.Entities;
-using HelpersDTO.CallCenter.DTO.Models;
+﻿using HelpersDTO.Patient.DTO;
 using Services.Abstractions;
 
 using Services.Implementations.Mapping;
 using Services.Repositories.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.Implementations
@@ -15,70 +13,12 @@ namespace Services.Implementations
     /// </summary>
     public class PatientService : IPatientService
     {
-        private readonly IPatientRepository _pacientRepository;
+        private readonly IDocumentRepository _patientRepository;
 
-        public PatientService(IPatientRepository courseRepository)
+        public PatientService(IDocumentRepository courseRepository)
         {
-            _pacientRepository = courseRepository;
+            _patientRepository = courseRepository;
         }
 
-        /// <summary>
-        /// Получить список
-        /// </summary>
-        /// <param name="page">номер страницы</param>
-        /// <param name="pageSize">объем страницы</param>
-        /// <returns></returns>
-        public async Task<ICollection<PatientDto>> GetPaged(int page, int pageSize)
-        {
-            var result = await _pacientRepository.GetPagedAsync(page, pageSize);
-            return result.ToPatientsDto();
-        }
-
-        /// <summary>
-        /// Получить
-        /// </summary>
-        /// <param name="id">идентификатор</param>
-        /// <returns>ДТО пациента</returns>
-        public async Task<PatientDto> GetById(Guid id)
-        {
-            var patient = await _pacientRepository.GetByIdAsync(id);
-            return patient.ToPatientDto();
-        }
-
-        /// <summary>
-        /// Создать
-        /// </summary>
-        /// <param name="patientDto">ДТО пациента</param>
-        /// <returns>идентификатор</returns>
-        public async Task<Guid> Create(PatientDto patientDto)
-        {
-            var patient = patientDto.ToPatient();
-            return await _pacientRepository.AddAsync(patient);
-        }
-
-        /// <summary>
-        /// Изменить
-        /// </summary>
-        /// <param name="id">идентификатор</param>
-        /// <param name="patientDto">ДТО пациента</param>
-        public async Task Update(Guid id, PatientDto patientDto)
-        {
-            var patient = patientDto.ToPatient();
-            patient.Id = id;
-            patient.Contacts.ForEach(c=> c.PatientId = id);
-            patient.Document.PatientId = id;
-            await _pacientRepository.UpdateAsync(patient);
-        }
-
-        /// <summary>
-        /// Удалить
-        /// </summary>
-        /// <param name="id">идентификатор</param>
-        public async Task DeleteAsync(Guid id)
-        {
-            var patient = await _pacientRepository.GetByIdAsync(id);
-            patient.Status = (int)HelpersDTO.CallCenter.DTO.Models.RelevanceStatusEnum.Deleted;
-            await _pacientRepository.UpdateAsync(patient);
-        }
     }
 }
